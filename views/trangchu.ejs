@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body class="page-lux home-page">
+
+    <%- include('partials/header') %>
+
+    <!-- ============ HERO ============ -->
+    <section class="home-hero" aria-label="Giới thiệu Rolex Vu Nhat Tuan Anh Vietnam">
+        <video autoplay muted loop playsinline class="home-hero__video">
+            <source src="/media/vid_bg7.mp4" type="video/mp4">
+        </video>
+        <div class="home-hero__overlay"></div>
+        <div class="home-hero__inner">
+            <p class="home-hero__eyebrow">Rolex vu nhat tuan anh Vietnam</p>
+            <h1 class="home-hero__title">Đẳng cấp được<br>đúc từng milimet</h1>
+            <p class="home-hero__subtitle">
+                Hơn 120 năm chế tác đồng hồ cao cấp — chúng tôi mang đến cho bạn những kiệt tác vượt thời gian.
+            </p>
+            <div class="home-hero__actions">
+                <a class="home-hero__btn home-hero__btn--primary" href="/sanphammoi">Khám phá bộ sưu tập</a>
+                <a class="home-hero__btn home-hero__btn--ghost" href="/chamsockhachhang">Đặt lịch tư vấn</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ STATS STRIP ============ -->
+    <section class="stats-strip" aria-label="Thống kê thương hiệu">
+        <div class="stats-strip__inner">
+            <div class="stat-item">
+                <span class="stat-item__num">120<sup>+</sup></span>
+                <span class="stat-item__label">Năm chế tác</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-item__num">11</span>
+                <span class="stat-item__label">Bộ sưu tập</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-item__num">5000<sup>+</sup></span>
+                <span class="stat-item__label">Khách hàng VIP</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-item__num">24/7</span>
+                <span class="stat-item__label">Hỗ trợ khách hàng</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FEATURED PRODUCTS ============ -->
+    <section class="home-section" id="featured" aria-labelledby="featured-heading">
+        <div class="home-section__inner">
+            <header class="section-head">
+                <p class="section-head__eyebrow">Nổi bật</p>
+                <h2 class="section-head__title" id="featured-heading">Sản phẩm tiêu biểu</h2>
+                <p class="section-head__sub">Những mẫu đồng hồ được yêu thích nhất — thiết kế bền vững, giá trị tăng theo năm tháng.</p>
+            </header>
+
+            <div class="featured-grid">
+                <% featuredProducts.forEach(function(product) { %>
+                <article class="feat-card">
+                    <div class="feat-card__img-wrap">
+                        <img src="/<%= product.image %>" alt="<%= product.name %>" loading="lazy">
+                    </div>
+                    <div class="feat-card__body">
+                        <p class="feat-card__collection"><%= product.collection.charAt(0).toUpperCase() + product.collection.slice(1) %></p>
+                        <h3 class="feat-card__name"><%= product.name %></h3>
+                        <p class="feat-card__model"><%= product.model %></p>
+                        <p class="feat-card__ref">Ref. <%= product.id %></p>
+                        <p class="feat-card__price"><%= new Intl.NumberFormat('vi-VN').format(product.price) %> VND</p>
+                        <a class="feat-card__cta" href="/sanphammoi">Xem chi tiết</a>
+                    </div>
+                </article>
+                <% }); %>
+            </div>
+
+            <div class="section-action">
+                <a class="cta-btn" href="/sanphammoi">Xem toàn bộ bộ sưu tập</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ COLLECTION CATEGORIES ============ -->
+    <section class="collection-section" aria-labelledby="collection-heading">
+        <div class="home-section__inner">
+            <header class="section-head section-head--light">
+                <p class="section-head__eyebrow">Danh mục</p>
+                <h2 class="section-head__title" id="collection-heading">Bộ sưu tập theo phong cách</h2>
+            </header>
+            <div class="collection-grid">
+                <a class="col-card" href="/sanphammoi">
+                    <div class="col-card__img-wrap">
+                        <img src="/media/datejust 36.avif" alt="Bộ sưu tập Classic" loading="lazy">
+                    </div>
+                    <div class="col-card__body">
+                        <h3>Classic</h3>
+                        <p>Datejust · Day-Date · Cellini</p>
+                        <span class="col-card__link">Khám phá →</span>
+                    </div>
+                </a>
+                <a class="col-card" href="/sanphammoi">
+                    <div class="col-card__img-wrap">
+                        <img src="/media/submariner.avif" alt="Bộ sưu tập Diving" loading="lazy">
+                    </div>
+                    <div class="col-card__body">
+                        <h3>Diving</h3>
+                        <p>Submariner · Deepsea · Sea-Dweller</p>
+                        <span class="col-card__link">Khám phá →</span>
+                    </div>
+                </a>
+                <a class="col-card" href="/sanphammoi">
+                    <div class="col-card__img-wrap">
+                        <img src="/media/11610lv.avif" alt="Bộ sưu tập Sport" loading="lazy">
+                    </div>
+                    <div class="col-card__body">
+                        <h3>Sport</h3>
+                        <p>GMT-Master II · Daytona · Explorer</p>
+                        <span class="col-card__link">Khám phá →</span>
+                    </div>
+                </a>
+                <a class="col-card" href="/sanphammoi">
+                    <div class="col-card__img-wrap">
+                        <img src="/media/day-date 40.avif" alt="Bộ sưu tập Luxury" loading="lazy">
+                    </div>
+                    <div class="col-card__body">
+                        <h3>Luxury</h3>
+                        <p>Lady-Datejust · Day-Date · Cellini Moon</p>
+                        <span class="col-card__link">Khám phá →</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ VIDEO + BRAND ============ -->
+    <section class="home-section" aria-labelledby="brand-heading">
+        <div class="home-section__inner">
+            <article class="video-card">
+                <div class="video-frame">
+                    <iframe
+                        src="https://www.youtube.com/embed/ZT9rvtlk_yc"
+                        title="Rolex brand video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-copy">
+                    <p class="section-head__eyebrow" style="margin-bottom:10px">Thương hiệu</p>
+                    <h2 id="brand-heading">Hành trình hơn 120 năm</h2>
+                    <p>Từ Geneva 1905, Rolex đã kiến tạo chuẩn mực đồng hồ cơ khí thế giới — kết hợp kỹ thuật đỉnh cao và phong cách thanh lịch trường tồn.</p>
+                    <ul>
+                        <li>Vỏ Oyster chống thấm nước đầu tiên thế giới</li>
+                        <li>Bộ máy tự động Perpetual huyền thoại</li>
+                        <li>Hơn 100 giải thưởng chứng nhận chất lượng</li>
+                    </ul>
+                    <a class="cta-btn" href="/sanphammoi">Khám phá sản phẩm</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ============ SERVICES STRIP ============ -->
+    <section class="services-strip" aria-labelledby="services-heading">
+        <div class="home-section__inner">
+            <header class="section-head section-head--light">
+                <p class="section-head__eyebrow">Dịch vụ</p>
+                <h2 class="section-head__title" id="services-heading">Cam kết đẳng cấp</h2>
+            </header>
+            <div class="services-grid">
+                <div class="svc-item">
+                    <div class="svc-item__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>Bảo hành chính hãng</h3>
+                    <p>Chứng chỉ bảo hành 5 năm theo tiêu chuẩn Rolex quốc tế.</p>
+                </div>
+                <div class="svc-item">
+                    <div class="svc-item__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+                    </div>
+                    <h3>Bảo dưỡng định kỳ</h3>
+                    <p>Làm sạch siêu âm, tra dầu và kiểm định độ chính xác toàn bộ bộ máy.</p>
+                </div>
+                <div class="svc-item">
+                    <div class="svc-item__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <h3>Showroom cao cấp</h3>
+                    <p>Không gian trải nghiệm riêng tư — hẹn giờ để được phục vụ tận tâm.</p>
+                </div>
+                <div class="svc-item">
+                    <div class="svc-item__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.62-.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+                    </div>
+                    <h3>Hỗ trợ 24/7</h3>
+                    <p>Hotline &amp; tư vấn trực tuyến — đội ngũ chuyên gia luôn sẵn sàng.</p>
+                </div>
+            </div>
+            <div class="section-action">
+                <a class="ghost-btn" href="/dichvu">Xem tất cả dịch vụ</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PARTNERS ============ -->
+    <section class="home-section" aria-labelledby="partner-heading">
+        <div class="home-section__inner">
+            <header class="section-head">
+                <p class="section-head__eyebrow">Đối tác</p>
+                <h2 class="section-head__title" id="partner-heading">Đồng hành cùng đỉnh cao</h2>
+                <p class="section-head__sub">Rolex tài trợ những sự kiện uy tín nhất thế giới — khẳng định giá trị vượt thời gian.</p>
+            </header>
+            <div class="partners-grid">
+                <div class="partner-item">
+                    <img src="/media/tennis.jpg" alt="Wimbledon" class="partner-image">
+                    <div>
+                        <h3>Wimbledon</h3>
+                        <p>Đối tác tennis danh giá nhất thế giới, đồng hành nhiều mùa giải liên tiếp.</p>
+                    </div>
+                </div>
+                <div class="partner-item">
+                    <img src="/media/f1.jpg" alt="24 Hours of Le Mans" class="partner-image">
+                    <div>
+                        <h3>24 Hours of Le Mans</h3>
+                        <p>Biểu tượng tốc độ và độ chính xác, phù hợp triết lý kỹ thuật của Rolex.</p>
+                    </div>
+                </div>
+                <div class="partner-item">
+                    <img src="/media/golf.jpg" alt="The Masters" class="partner-image">
+                    <div>
+                        <h3>The Masters</h3>
+                        <p>Đối tác golf uy tín, khẳng định sự bền bỉ và đẳng cấp theo thời gian.</p>
+                    </div>
+                </div>
+                <div class="partner-item">
+                    <img src="/media/chungnhan.jpg" alt="National Geographic" class="partner-image">
+                    <div>
+                        <h3>National Geographic</h3>
+                        <p>Đồng hành các dự án khoa học và bảo tồn môi trường toàn cầu.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CTA BANNER ============ -->
+    <section class="cta-banner" aria-label="Đặt lịch tư vấn">
+        <div class="cta-banner__inner">
+            <h2 class="cta-banner__title">Bắt đầu hành trình của bạn</h2>
+            <p class="cta-banner__sub">Đặt lịch tham quan showroom hoặc đăng ký tư vấn trực tuyến — hoàn toàn miễn phí.</p>
+            <div class="cta-banner__actions">
+                <a class="home-hero__btn home-hero__btn--primary" href="/form">Đặt lịch tư vấn</a>
+                <a class="home-hero__btn home-hero__btn--ghost-dark" href="/chamsockhachhang">Liên hệ ngay</a>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/auth-ui.js"></script>
+    <script src="/js/home-scroll-effects.js"></script>
+</body>
+</html>

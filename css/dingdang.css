@@ -1,0 +1,162 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+#header {
+    background-color: #247933;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+.footer {
+    background-color: #247933;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+main {
+    flex: 3 1 600px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+main h2, main h3 {
+    margin-bottom: 15px;
+    color: #222;
+}
+
+ul, ol {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+ul li, ol li {
+    margin: 6px 0;
+}
+
+/* History và Values Box */
+.history-box p, .values-box p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: justify;
+    color: #333;
+}
+
+.history-box h4, .values-box h4 {
+    color: #006039;
+    margin: 25px 0 15px;
+    font-size: 1.2em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.history-box ul, .values-box ul {
+    margin-bottom: 25px;
+}
+
+.history-box li, .values-box li {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.history-box strong {
+    color: #006039;
+}
+
+/* Style cho container */
+.info-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 20px;
+}
+
+.history-box, .values-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* Grid layouts cho các section mới */
+.tech-grid, .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 20px 0;
+}
+
+/* Box styles */
+.tech-box, .cert-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Image styles */
+.tech-box img, .cert-box img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+/* Description styles */
+.tech-description, .cert-description {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 15px;
+}
+
+.tech-description p, .cert-description p {
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.tech-description ul, .cert-description ul {
+    padding-left: 20px;
+}
+
+.tech-description li, .cert-description li {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+/* Video container styles cho section mới */
+.video-box .video-container {
+    margin-bottom: 20px;
+}
+
+.content-description {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tech-grid, .cert-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 992px) {
+    .info-grid {
+        grid-template-columns: 60% 40%;
+    }
+}

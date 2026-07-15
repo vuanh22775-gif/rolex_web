@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+    <style>
+        .order-card { border: 1px solid #e0d5c5; border-radius: 6px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .order-card__header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .order-id { color: #888; font-size: 0.82rem; margin: 2px 0 0; }
+        .order-badge { padding: 4px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+        .badge--pending  { background: #fff3cd; color: #856404; }
+        .badge--approved { background: #d1e7dd; color: #0f5132; }
+        .badge--rejected { background: #f8d7da; color: #842029; }
+        .order-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 0.5rem; }
+        .order-table th, .order-table td { padding: 7px 10px; border-bottom: 1px solid #f0ebe3; }
+        .order-table th { text-align: left; color: #888; font-weight: 500; }
+        .order-table .right { text-align: right; }
+        .order-table tfoot td { font-weight: 600; border-top: 1px solid #e0d5c5; border-bottom: none; }
+        .order-meta { margin-top: 0.8rem; font-size: 0.85rem; color: #666; }
+        .empty-orders { text-align: center; padding: 3rem; color: #888; }
+    </style>
+</head>
+<body class="page-lux">
+
+    <%- include('partials/header') %>
+
+    <section class="lux-hero" aria-label="Đơn hàng của tôi">
+        <div class="lux-hero__rail" aria-hidden="true"></div>
+        <div class="lux-hero__inner">
+            <h1 class="lux-hero__title">Đơn hàng của tôi</h1>
+            <p class="lux-hero__subtitle">Theo dõi trạng thái đơn hàng Rolex Boutique của bạn.</p>
+            <a class="lux-hero__cta" href="#noi-dung-chinh">Xem ngay &gt;</a>
+        </div>
+        <a class="lux-hero__scroll" href="#noi-dung-chinh" aria-label="Cuộn tới nội dung">⌄</a>
+    </section>
+
+    <main class="page lux-main-wrap" id="noi-dung-chinh">
+
+        <% if (success) { %>
+        <div class="quanli-banner quanli-banner--success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Đặt hàng thành công! Đơn hàng đang chờ xác nhận từ Rolex Boutique.
+        </div>
+        <% } %>
+
+        <section class="info-card wide">
+            <h2>Lịch sử đơn hàng</h2>
+
+            <% if (orders.length === 0) { %>
+            <div class="empty-orders">
+                <p>Bạn chưa có đơn hàng nào.</p>
+                <a href="/sanphammoi" class="cta-btn" style="margin-top:1rem;display:inline-block">Khám phá sản phẩm</a>
+            </div>
+            <% } else { %>
+
+            <% orders.forEach(function(o) { %>
+            <div class="order-card">
+                <div class="order-card__header">
+                    <div>
+                        <strong>Đặt ngày <%= new Date(o.createdAt).toLocaleDateString('vi-VN') %></strong>
+                        <p class="order-id">Mã đơn: #<%= String(o._id).slice(-8).toUpperCase() %></p>
+                    </div>
+                    <% if (o.status === 'pending') { %>
+                    <span class="order-badge badge--pending">Chờ xác nhận</span>
+                    <% } else if (o.status === 'approved') { %>
+                    <span class="order-badge badge--approved">✓ Đã được duyệt</span>
+                    <% } else { %>
+                    <span class="order-badge badge--rejected">✗ Đơn hàng bị từ chối</span>
+                    <% } %>
+                </div>
+
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th class="right">Số lượng</th>
+                            <th class="right">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% o.items.forEach(function(item) { %>
+                        <tr>
+                            <td><%= item.name %></td>
+                            <td class="right"><%= item.qty %></td>
+                            <td class="right"><%= new Intl.NumberFormat('vi-VN').format(item.lineTotal) %> VND</td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="right">Tổng cộng:</td>
+                            <td class="right" style="color:#006039"><%= new Intl.NumberFormat('vi-VN').format(o.total) %> VND</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <p class="order-meta">
+                    Địa chỉ: <strong><%= o.address %></strong>
+                    <% if (o.note) { %> — Ghi chú: <%= o.note %><% } %>
+                    — Thanh toán: <strong><%= { vnpay: 'QR/Ví', cod: 'COD', bank: 'Chuyển khoản' }[o.paymentMethod] || o.paymentMethod %></strong>
+                </p>
+            </div>
+            <% }); %>
+
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/auth-ui.js"></script>
+</body>
+</html>

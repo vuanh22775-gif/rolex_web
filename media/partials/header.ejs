@@ -1,0 +1,77 @@
+<header class="lux-header">
+    <div class="lux-header__left">
+        <div class="lux-menu">
+            <button type="button" class="lux-menu__btn lux-menu__mega-open"
+                    aria-expanded="false" aria-controls="rolexMegaDrawer"
+                    aria-label="Mở menu điều hướng">
+                <span class="lux-menu__icon" aria-hidden="true"></span>
+                <span class="lux-menu__label">Menu</span>
+            </button>
+            <nav class="lux-menu__nav lux-header__nav" aria-label="Điều hướng chính">
+                <a href="/"                 class="<%= activePage === 'trangchu'         ? 'active' : '' %>">Trang chủ</a>
+                <a href="/sanphammoi"       class="<%= activePage === 'sanphammoi'       ? 'active' : '' %>">Sản phẩm</a>
+                <a href="/dichvu"           class="<%= activePage === 'dichvu'           ? 'active' : '' %>">Dịch vụ</a>
+                <a href="/chamsockhachhang" class="<%= activePage === 'chamsockhachhang' ? 'active' : '' %>">Chăm sóc KH</a>
+
+                <% if (!isAuthenticated) { %>
+                    <a href="/dangnhap" class="<%= activePage === 'dangnhap' ? 'active' : '' %>">Đăng nhập</a>
+
+                <% } else if (user.role === 'user') { %>
+                    <a href="/don-hang" class="<%= activePage === 'don-hang' ? 'active' : '' %>">Đơn hàng của tôi</a>
+                    
+
+                <% } else { %>
+                    <a href="/quanli" class="<%= activePage === 'quanli' ? 'active' : '' %>">Quản lí</a>
+                    
+                <% } %>
+            </nav>
+        </div>
+    </div>
+
+    <a href="/" class="lux-header__logo" aria-label="Rolex Boutique — Trang chủ">
+        <img src="/media/Ảnh chụp màn hình 2025-05-06 095203.png" alt="Rolex Boutique Vietnam">
+    </a>
+
+    <div class="lux-header__tools">
+        <% if (typeof showCartBtn !== 'undefined' && showCartBtn) { %>
+        <button id="openCartBtn" class="cart-pill" type="button">
+            Giỏ hàng <span id="cartCount">0</span>
+        </button>
+        <% } %>
+        <a class="lux-tool" href="/sanphammoi" aria-label="Tìm kiếm sản phẩm">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+            <span class="lux-tool__label">Tìm kiếm</span>
+        </a>
+        <a class="lux-tool" href="/chamsockhachhang" aria-label="Hệ thống cửa hàng">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <span class="lux-tool__label">Cửa hàng</span>
+        </a>
+        <% if (isAuthenticated && user.role === 'user') { %>
+        <a class="lux-tool" href="/don-hang" aria-label="Đơn hàng của tôi">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="lux-tool__label">Đơn hàng</span>
+        </a>
+        <% } else if (!isAuthenticated) { %>
+        <a class="lux-tool" href="/form" aria-label="Đăng ký tư vấn">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+            <span class="lux-tool__label">Đăng ký</span>
+        </a>
+        <% } %>
+    </div>
+</header>
+
+<style>
+.lux-header__nav-logout {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+}
+.lux-header__nav-logout:hover { opacity: 1; }
+</style>

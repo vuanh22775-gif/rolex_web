@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+</head>
+<body class="page-lux">
+
+    <%- include('partials/header') %>
+
+    <section class="lux-hero" aria-label="Đăng nhập">
+        <div class="lux-hero__rail" aria-hidden="true"></div>
+        <div class="lux-hero__inner">
+            <h1 class="lux-hero__title">Đăng nhập tài khoản</h1>
+            <p class="lux-hero__subtitle">Truy cập bộ sưu tập, đơn hàng và dịch vụ dành riêng cho bạn.</p>
+            <a class="lux-hero__cta" href="#noi-dung-chinh">Khám phá thêm &gt;</a>
+        </div>
+        <a class="lux-hero__scroll" href="#noi-dung-chinh" aria-label="Cuộn tới nội dung">⌄</a>
+    </section>
+
+    <main class="page lux-main-wrap login-page" id="noi-dung-chinh">
+        <section class="login-split-card">
+            <article class="login-panel login-panel-left">
+                <div class="login-copy">
+                    <h1>Đăng nhập</h1>
+                    <p>Truy cập tài khoản của bạn</p>
+                </div>
+
+                <% if (message) { %>
+                <p class="form-status <%= message.success ? 'success' : 'error' %>">
+                    <%= message.message %>
+                    <% if (message.success && message.redirect) { %>
+                    <script>setTimeout(function(){ window.location.href = '<%= message.redirect %>'; }, 800);</script>
+                    <% } %>
+                </p>
+                <% } %>
+
+                <form id="loginForm" class="login-form-modern" novalidate>
+                    <input id="username" name="username" type="text" placeholder="Tên đăng nhập" required>
+                    <input id="password" name="password" type="password" placeholder="Mật khẩu" required>
+                    <div id="loginStatus"></div>
+                    <button type="submit" class="login-submit-btn">Đăng nhập</button>
+                    <p class="auth-note">Chưa có tài khoản? <a href="/form">Đăng ký</a></p>
+                </form>
+            </article>
+
+            <div class="login-divider-badge">hoặc</div>
+
+            <article class="login-panel login-panel-right">
+                <div class="login-overlay"></div>
+                <div class="login-right-content">
+                    <h2>Chào mừng quay lại</h2>
+                    <p>Khám phá bộ sưu tập và dịch vụ Rolex theo phong cách của bạn.</p>
+                    <div class="social-row" aria-label="Đăng nhập mạng xã hội (minh họa)">
+                        <span class="social-icon">f</span>
+                        <span class="social-icon">t</span>
+                        <span class="social-icon">G+</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/auth-ui.js"></script>
+    <script src="/js/login.js"></script>
+</body>
+</html>

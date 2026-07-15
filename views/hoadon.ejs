@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+    <link rel="stylesheet" href="/css/hoadon.css">
+</head>
+<body class="page-lux">
+
+    <%- include('partials/header') %>
+
+    <section class="lux-hero" aria-label="Quản lý hóa đơn">
+        <div class="lux-hero__rail" aria-hidden="true"></div>
+        <div class="lux-hero__inner">
+            <h1 class="lux-hero__title">Quản lý Doanh thu & Hóa đơn</h1>
+            <p class="lux-hero__subtitle">Theo dõi, cập nhật và xuất hóa đơn toàn bộ đơn hàng.</p>
+            <a class="lux-hero__cta" href="#noi-dung-chinh">Xem ngay &gt;</a>
+        </div>
+        <a class="lux-hero__scroll" href="#noi-dung-chinh" aria-label="Cuộn tới nội dung">⌄</a>
+    </section>
+
+    <main class="page lux-main-wrap" id="noi-dung-chinh">
+
+        <!-- Thống kê doanh thu -->
+        <section class="dashboard-grid hd-stats-grid">
+            <article class="info-card stat-card hd-stat">
+                <div class="hd-stat__icon hd-stat__icon--green">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div>
+                    <h2>Tổng doanh thu</h2>
+                    <p class="stat-value hd-stat__value" id="statTotalRevenue">
+                        <%= new Intl.NumberFormat('vi-VN').format(tongDoanhThu) %> VND
+                    </p>
+                    <p>Từ các đơn hàng đã duyệt</p>
+                </div>
+            </article>
+            <article class="info-card stat-card hd-stat">
+                <div class="hd-stat__icon hd-stat__icon--blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <div>
+                    <h2>Tổng hóa đơn</h2>
+                    <p class="stat-value hd-stat__value"><%= tongHoaDon %></p>
+                    <p>Tất cả đơn hàng trong hệ thống</p>
+                </div>
+            </article>
+            <article class="info-card stat-card hd-stat">
+                <div class="hd-stat__icon hd-stat__icon--yellow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                    <h2>Chờ duyệt</h2>
+                    <p class="stat-value hd-stat__value"><%= choDuyet %></p>
+                    <p>Đơn hàng cần xử lý</p>
+                </div>
+            </article>
+            <article class="info-card stat-card hd-stat">
+                <div class="hd-stat__icon hd-stat__icon--emerald">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div>
+                    <h2>Đã duyệt</h2>
+                    <p class="stat-value hd-stat__value"><%= daDuyet %></p>
+                    <p>Đơn hàng thành công</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- Biểu đồ doanh thu theo tháng -->
+        <section class="info-card wide hd-chart-section">
+            <h2>Doanh thu theo tháng</h2>
+            <div class="hd-chart" id="revenueChart">
+                <% if (doanhThuThang.length === 0) { %>
+                <p class="hd-chart__empty">Chưa có dữ liệu doanh thu.</p>
+                <% } else { %>
+                <div class="hd-chart__bars" id="chartBars">
+                    <% doanhThuThang.forEach(function(m) { %>
+                    <div class="hd-chart__bar-wrap">
+                        <div class="hd-chart__bar-label-top"><%= new Intl.NumberFormat('vi-VN', { notation: 'compact', maximumFractionDigits: 1 }).format(m.revenue) %></div>
+                        <div class="hd-chart__bar" style="height: calc(var(--bar-max-h) * <%= m.revenue %> / <%= maxThang %>)" data-value="<%= m.revenue %>"></div>
+                        <div class="hd-chart__bar-label">T<%= m.month %>/<%= m.year %></div>
+                    </div>
+                    <% }); %>
+                </div>
+                <% } %>
+            </div>
+        </section>
+
+        <!-- Quản lý danh sách hóa đơn -->
+        <section class="info-card wide">
+            <h2>Danh sách hóa đơn</h2>
+            <div class="hd-controls">
+                <div class="hd-search-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" class="hd-search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input id="hdSearch" type="text" placeholder="Tìm theo tên, SĐT, mã hóa đơn..." class="search-input hd-search">
+                </div>
+                <div class="hd-filters">
+                    <select id="hdFilterStatus" class="hd-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="pending">Chờ duyệt</option>
+                        <option value="approved">Đã duyệt</option>
+                        <option value="rejected">Từ chối</option>
+                    </select>
+                    <select id="hdFilterPayment" class="hd-select">
+                        <option value="">Tất cả thanh toán</option>
+                        <option value="cod">COD</option>
+                        <option value="vnpay">QR/Ví</option>
+                        <option value="bank">Chuyển khoản</option>
+                    </select>
+                    <input id="hdFilterDateFrom" type="date" class="hd-select hd-date" title="Từ ngày">
+                    <input id="hdFilterDateTo" type="date" class="hd-select hd-date" title="Đến ngày">
+                    <button id="hdResetFilter" class="ghost-btn hd-reset-btn">Đặt lại</button>
+                </div>
+            </div>
+
+            <div class="products-table-container">
+                <table class="products-table hd-table" id="hdTable">
+                    <thead>
+                        <tr>
+                            <th>Mã HĐ</th>
+                            <th>Khách hàng</th>
+                            <th>Sản phẩm</th>
+                            <th>Tổng tiền</th>
+                            <th>Thanh toán</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đặt</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hdTableBody">
+                        <% if (orders.length === 0) { %>
+                        <tr class="empty-row"><td colspan="8">Chưa có hóa đơn nào.</td></tr>
+                        <% } else { %>
+                        <% orders.forEach(function(o) { %>
+                        <tr class="hd-row"
+                            data-id="<%= o._id %>"
+                            data-name="<%= o.fullName.toLowerCase() %>"
+                            data-phone="<%= o.phone %>"
+                            data-status="<%= o.status %>"
+                            data-payment="<%= o.paymentMethod %>"
+                            data-date="<%= new Date(o.createdAt).toISOString().split('T')[0] %>">
+                            <td class="hd-code">#<%= String(o._id).slice(-8).toUpperCase() %></td>
+                            <td>
+                                <strong><%= o.fullName %></strong><br>
+                                <small><%= o.phone %></small><br>
+                                <small class="hd-email"><%= o.email %></small>
+                            </td>
+                            <td>
+                                <% o.items.forEach(function(item) { %>
+                                <div class="hd-item"><%= item.name %> <span class="hd-qty">×<%= item.qty %></span></div>
+                                <% }); %>
+                            </td>
+                            <td class="hd-total"><%= new Intl.NumberFormat('vi-VN').format(o.total) %> VND</td>
+                            <td>
+                                <span class="hd-payment-badge hd-payment-<%= o.paymentMethod %>">
+                                    <%= { vnpay: 'QR/Ví', cod: 'COD', bank: 'Chuyển khoản' }[o.paymentMethod] || o.paymentMethod %>
+                                </span>
+                            </td>
+                            <td>
+                                <% if (o.status === 'pending') { %>
+                                <span class="status-badge hd-status--pending">Chờ duyệt</span>
+                                <% } else if (o.status === 'approved') { %>
+                                <span class="status-badge status-active hd-status--approved">Đã duyệt</span>
+                                <% } else { %>
+                                <span class="status-badge hd-status--rejected">Từ chối</span>
+                                <% } %>
+                            </td>
+                            <td><%= new Date(o.createdAt).toLocaleDateString('vi-VN') %></td>
+                            <td class="action-buttons hd-actions">
+                                <button class="hd-btn-export" data-id="<%= o._id %>"
+                                    data-name="<%= o.fullName %>"
+                                    data-phone="<%= o.phone %>"
+                                    data-email="<%= o.email %>"
+                                    data-address="<%= o.address %>"
+                                    data-status="<%= o.status %>"
+                                    data-payment="<%= o.paymentMethod %>"
+                                    data-total="<%= o.total %>"
+                                    data-date="<%= new Date(o.createdAt).toLocaleDateString('vi-VN') %>"
+                                    data-items='<%- JSON.stringify(o.items) %>'>
+                                    Xuất hóa đơn
+                                </button>
+                            </td>
+                        </tr>
+                        <% }); %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div class="hd-no-result" id="hdNoResult" style="display:none">
+                    Không tìm thấy hóa đơn phù hợp.
+                </div>
+            </div>
+            <div class="hd-pagination" id="hdPagination"></div>
+        </section>
+
+        <section class="info-card wide">
+            <h2>Tác vụ nhanh</h2>
+            <div class="quick-actions">
+                <a href="/quanli" class="cta-btn">← Về trang quản lí</a>
+                <a href="/" class="ghost-btn">Về trang chủ</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal xuất hóa đơn (print view) -->
+    <div id="hdPrintModal" class="modal hd-print-modal" aria-hidden="true">
+        <div class="modal-content hd-print-modal-content">
+            <div class="modal-header hd-print-header">
+                <h2>Xem trước hóa đơn</h2>
+                <div class="hd-print-actions">
+                    <button id="hdDoPrint" class="cta-btn">In hóa đơn</button>
+                    <button id="hdClosePrintModal" class="ghost-btn">Đóng</button>
+                </div>
+            </div>
+            <div id="hdPrintArea" class="hd-print-area">
+                <!-- Nội dung được tạo động bởi JS -->
+            </div>
+        </div>
+    </div>
+    <div id="hdPrintOverlay" class="modal-overlay"></div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        window.HD_ORDERS = <%- JSON.stringify(orders) %>;
+    </script>
+    <script src="/js/auth-ui.js"></script>
+    <script src="/js/hoadon.js"></script>
+</body>
+</html>

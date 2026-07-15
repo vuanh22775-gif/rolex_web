@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"c:\\\\Users\\\\ADMIN\\\\Downloads\\\\BTL_NODE _final - Copy \\(3\\)\" ; Get-ChildItem -Recurse -Directory | ForEach-Object { $_.FullName })",
+      "PowerShell(cd \"c:\\\\Users\\\\ADMIN\\\\Downloads\\\\BTL_NODE _final - Copy \\(3\\)\" ; Get-ChildItem -File | ForEach-Object { $_.Name })",
+      "PowerShell(cd \"c:\\\\Users\\\\ADMIN\\\\Downloads\\\\BTL_NODE _final - Copy \\(3\\)\\\\models\" ; Get-ChildItem -File | ForEach-Object { $_.Name })",
+      "PowerShell(cd \"c:\\\\Users\\\\ADMIN\\\\Downloads\\\\BTL_NODE _final - Copy \\(3\\)\\\\views\" ; Get-ChildItem -File | ForEach-Object { $_.Name })",
+      "Bash(node --check index.js)",
+      "Bash(node --check \"c:\\\\Users\\\\ADMIN\\\\Downloads\\\\BTL_NODE _final - Copy \\(3\\)\\\\js\\\\hoadon.js\")"
+    ]
+  }
+}

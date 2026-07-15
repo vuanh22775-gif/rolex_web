@@ -1,0 +1,275 @@
+/* CSS cơ bản cho layout lưới */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 15px;
+}
+
+/* CSS cho các ô trong lưới */
+.grid > div {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* CSS cho container chính */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: 250px auto; /* Sidebar 250px, phần còn lại là auto */
+  gap: 20px;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 250px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-body {
+    background-color: #f9f9f9;
+    padding: 15px;
+  }
+  
+  .card-title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .card-text {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .card-body strong {
+    font-size: 1.2rem;
+    color: #068206;
+  }
+  
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  
+  .col {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .card-body p {
+    margin-bottom: 10px;
+  }
+
+/* Flexbox Layout */
+.d-flex {
+    display: flex;
+    gap: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .d-flex {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
+.luoi{
+    width: 100%;
+    padding: 0;
+    }
+    .chieurongluoi{
+    max-width: 1200px;
+    margin: 0 auto;
+    }
+    .hang{
+        display: flex;
+        flex-wrap: wrap;
+        }
+    .cot{
+    padding-left: 8px;
+    padding-right: 8px;}
+    .cot-0{
+    display: none;
+    }
+    .cot-1{ /* 1 cột cơ sở */
+    flex: 0 0 8.33333%;
+    max-width: 8.33333%;
+    }
+    .cot-2{
+    flex: 0 0 16.66666%;
+    max-width: 16.66666%;
+    }
+    .cot-3{
+    flex: 0 0 25%;
+    max-width:25%;
+    }
+    .cot-4{
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+    }
+    .cot-5{
+    flex: 0 0 41.66666%;
+    max-width: 41.66666%;
+    }
+    .cot-6{
+    flex: 0 0 50%;
+    max-width: 50%;
+    }
+    .cot-7{flex: 0 0 58.33333%;
+    max-width: 58.33333%;
+    }
+    .cot-8{
+    flex: 0 0 66.66666%;
+    max-width: 66.66666%;
+    }
+    .cot-9{
+    flex: 0 0 75%;
+    max-width: 75%;
+    }
+    .cot-10{
+    flex: 0 0 83.33333%;
+    max-width: 83.33333%;
+    }
+    .cot-11{
+    flex: 0 0 91.66666%;
+    max-width: 91.66666%;
+    }
+    .cot-12{
+    flex: 0 0 100%;
+    max-width: 100%;
+    }
+    @media (min-width: 744px) and (max-width: 1023px){
+        body{ background-color: blue; }
+        .cot{
+        padding-left: 6px;padding-right: 6px;
+        }
+        .maytinhbang-cot-0{
+        display: none;
+        }
+        .maytinhbang-cot-1{
+        flex: 0 0 8.33333%;
+        max-width: 8.33333%;
+        }
+        .maytinhbang-cot-2{
+        flex: 0 0 16.66666%;
+        max-width: 16.66666%;
+        }
+        .maytinhbang-cot-3{
+        flex: 0 0 25%;
+        max-width:25%;
+        }
+        .maytinhbang-cot-4{
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+        }
+        .maytinhbang-cot-5{
+        flex: 0 0 41.66666%;
+        max-width: 41.66666%;
+        }
+        .maytinhbang-cot-6{
+        flex: 0 0 50%;
+        max-width: 50%;
+        }.maytinhbang-cot-7{
+        flex: 0 0 58.33333%;
+        max-width: 58.33333%;
+        }
+        .maytinhbang-cot-8{
+        flex: 0 0 66.66666%;
+        max-width: 66.66666%;
+        }
+        .maytinhbang-cot-9{
+        flex: 0 0 75%;
+        max-width: 75%;
+        }
+        .maytinhbang-cot-10{
+        flex: 0 0 83.33333%;
+        max-width: 83.33333%;
+        }
+        .maytinhbang-cot-11{
+        flex: 0 0 91.66666%;
+        max-width: 91.66666%;
+        }
+        .maytinhbang-cot-12{
+        flex: 0 0 100%;
+        max-width: 100%;
+        }
+    }
+    @media (max-width: 743px) {
+        body { background-color: gray; }
+        .cot {padding-left: 4px;
+        padding-right: 4px;
+        }
+        .dienthoai-cot-0{
+        display: none;
+        }
+        .dienthoai-cot-1{
+        flex: 0 0 8.33333%;
+        max-width: 8.33333%;
+        }
+        .dienthoai-cot-2{
+        flex: 0 0 16.66666%;
+        max-width: 16.66666%;
+        }
+        .dienthoai-cot-3{
+        flex: 0 0 25%;
+        max-width:25%;
+        }
+        .dienthoai-cot-4{
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+        }
+        .dienthoai-cot-5{
+        flex: 0 0 41.66666%;
+        max-width: 41.66666%;
+        }
+        .dienthoai-cot-6{
+        flex: 0 0 50%;
+        max-width: 50%;}
+        .dienthoai-cot-7{
+        flex: 0 0 58.33333%;
+        max-width: 58.33333%;
+        }
+        .dienthoai-cot-8{
+        flex: 0 0 66.66666%;
+        max-width: 66.66666%;
+        }
+        .dienthoai-cot-9{
+        flex: 0 0 75%;
+        max-width: 75%;
+        }
+        .dienthoai-cot-10{
+        flex: 0 0 83.33333%;
+        max-width: 83.33333%;
+        }
+        .dienthoai-cot-11{
+        flex: 0 0 91.66666%;
+        max-width: 91.66666%;
+        }
+        .dienthoai-cot-12{
+        flex: 0 0 100%;
+        max-width: 100%;
+        }
+        }

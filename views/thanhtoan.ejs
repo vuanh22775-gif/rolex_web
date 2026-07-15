@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+</head>
+<body class="page-lux">
+
+    <%- include('partials/header') %>
+
+    <section class="lux-hero" aria-label="Thanh toán">
+        <div class="lux-hero__rail" aria-hidden="true"></div>
+        <div class="lux-hero__inner">
+            <h1 class="lux-hero__title">Thanh toán đơn hàng</h1>
+            <p class="lux-hero__subtitle">Vui lòng xác nhận thông tin để hoàn tất đơn hàng Rolex của bạn.</p>
+            <a class="lux-hero__cta" href="#noi-dung-chinh">Khám phá thêm &gt;</a>
+        </div>
+        <a class="lux-hero__scroll" href="#noi-dung-chinh" aria-label="Cuộn tới nội dung">⌄</a>
+    </section>
+
+    <main class="page lux-main-wrap" id="noi-dung-chinh">
+        <section class="checkout-shell">
+            <article class="info-card checkout-left">
+
+                <% if (message) { %>
+                <p class="form-status <%= message.success ? 'success' : 'error' %>">
+                    <%= message.message %>
+                </p>
+                <% } %>
+                <p id="checkoutStatus" class="form-status" style="display:none"></p>
+
+                <form id="checkoutForm" class="checkout-form-alt" method="POST" action="/thanhtoan">
+                    <input type="hidden" id="cartItems" name="cartItems" value="">
+                    <h2>1. Chọn phương thức thanh toán</h2>
+                    <div class="payment-method-grid">
+                        <label class="payment-option">
+                            <input type="radio" name="paymentMethod" value="vnpay" checked>
+                            Thanh toán qua ví/QR
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="paymentMethod" value="cod">
+                            Thanh toán COD
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="paymentMethod" value="bank">
+                            Chuyển khoản ngân hàng
+                        </label>
+                    </div>
+
+                    <h2>2. Thông tin khách hàng (*)</h2>
+                    <div class="checkout-fields">
+                        <label for="fullName">Họ tên:</label>
+                        <input id="fullName" name="fullName" type="text" required>
+
+                        <label for="email">Email của bạn:</label>
+                        <input id="email" name="email" type="email" required>
+
+                        <label for="phone">Số điện thoại:</label>
+                        <input id="phone" name="phone" type="tel" required>
+
+                        <label for="orderNote">Địa chỉ:</label>
+                        <input id="orderNote" name="orderNote" type="text" required>
+
+                        <label for="address">Ghi chú:</label>
+                        <textarea id="address" name="address" rows="3"></textarea>
+                    </div>
+
+                    <p class="checkout-note">(*) Vui lòng nhập chính xác thông tin để Rolex Boutique xác nhận đơn hàng nhanh hơn.</p>
+                    <div class="checkout-actions">
+                        <a href="/sanphammoi" class="ghost-btn">Quay lại</a>
+                        <button type="submit" class="cta-btn">Xác nhận thanh toán</button>
+                    </div>
+                </form>
+            </article>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/auth-ui.js"></script>
+    <script>
+        window.ROLEX_PRODUCTS_SERVER = <%- JSON.stringify(products) %>;
+    </script>
+    <script src="/js/checkout.js"></script>
+</body>
+</html>

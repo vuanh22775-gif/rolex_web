@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+</head>
+<body class="page-lux">
+
+    <%- include('partials/header', { showCartBtn: true }) %>
+
+    <section class="lux-hero" aria-label="Bộ sưu tập">
+        <div class="lux-hero__rail" aria-hidden="true"></div>
+        <div class="lux-hero__inner">
+            <h1 class="lux-hero__title">Bộ sưu tập Rolex 2026</h1>
+            <p class="lux-hero__subtitle">Khám phá các dòng đồng hồ biểu tượng với thiết kế vượt thời gian và công nghệ đỉnh cao.</p>
+            <a class="lux-hero__cta" href="#noi-dung-chinh">Khám phá thêm &gt;</a>
+        </div>
+        <a class="lux-hero__scroll" href="#noi-dung-chinh" aria-label="Cuộn tới nội dung">⌄</a>
+    </section>
+
+    <main class="page lux-main-wrap" id="noi-dung-chinh">
+        <section class="controls">
+            <input id="searchInput" type="text" placeholder="Tìm theo tên hoặc mã tham chiếu...">
+            <select id="collectionFilter">
+                <option value="all">Tất cả bộ sưu tập</option>
+                <option value="classic">Classic</option>
+                <option value="sport">Sport</option>
+                <option value="diving">Diving</option>
+                <option value="luxury">Luxury</option>
+            </select>
+            <select id="priceFilter">
+                <option value="all">Mọi mức giá</option>
+                <option value="under-300">Dưới 300 triệu</option>
+                <option value="300-700">300 - 700 triệu</option>
+                <option value="over-700">Trên 700 triệu</option>
+            </select>
+            <select id="sortBy">
+                <option value="default">Sắp xếp mặc định</option>
+                <option value="price-asc">Giá tăng dần</option>
+                <option value="price-desc">Giá giảm dần</option>
+                <option value="name-asc">Tên A-Z</option>
+            </select>
+        </section>
+
+        <section id="productGrid" class="product-grid"></section>
+    </main>
+
+    <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+        <div class="cart-header">
+            <h2>Giỏ hàng của bạn</h2>
+            <button id="closeCartBtn" type="button" class="ghost-btn">Đóng</button>
+        </div>
+        <div id="cartItems" class="cart-items"></div>
+        <div class="cart-footer">
+            <p>Tạm tính: <strong id="cartSubtotal">0 VND</strong></p>
+            <button id="checkoutBtn" type="button" class="cta-btn">Thanh toán</button>
+            <button id="clearCartBtn" type="button" class="danger-btn">Xóa giỏ hàng</button>
+        </div>
+    </aside>
+
+    <div id="overlay" class="overlay"></div>
+
+    <%- include('partials/footer') %>
+
+    <!-- Dữ liệu sản phẩm từ server (cho rolex-store.js) -->
+    <script>
+        window.ROLEX_PRODUCTS_SERVER = <%- JSON.stringify(products) %>;
+    </script>
+    <script src="/js/auth-ui.js"></script>
+    <script src="/js/rolex-store.js"></script>
+</body>
+</html>

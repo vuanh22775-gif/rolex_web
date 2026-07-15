@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+</head>
+<body class="page-lux">
+
+    <%- include('partials/header') %>
+
+    <section class="lux-hero" aria-label="Chăm sóc khách hàng">
+        <div class="lux-hero__rail" aria-hidden="true"></div>
+        <div class="lux-hero__inner">
+            <h1 class="lux-hero__title">Trung tâm chăm sóc khách hàng</h1>
+            <p class="lux-hero__subtitle">Hỗ trợ nhanh, minh bạch và chuyên nghiệp cho mọi yêu cầu về sản phẩm Rolex.</p>
+            <a class="lux-hero__cta" href="#noi-dung-chinh">Khám phá thêm &gt;</a>
+        </div>
+        <a class="lux-hero__scroll" href="#noi-dung-chinh" aria-label="Cuộn tới nội dung">⌄</a>
+    </section>
+
+    <main class="page lux-main-wrap" id="noi-dung-chinh">
+        <section class="info-card wide store-address-section" aria-labelledby="dia-chi-cua-hang">
+            <h2 id="dia-chi-cua-hang">Địa chỉ cửa hàng &amp; showroom</h2>
+            <p class="store-lead">Rolex Boutique Vietnam kính mời Quý khách đến trải nghiệm bộ sưu tập, tư vấn bảo hành và dịch vụ hậu mãi trực tiếp tại showroom trung tâm.</p>
+            <ul class="store-details">
+                <li><strong>Showroom:</strong> 120 Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</li>
+                <li><strong>Điện thoại:</strong> 028 3939 8888 &nbsp;·&nbsp; Hotline: 0909 123 456</li>
+                <li><strong>Email CSKH:</strong> <a href="mailto:cskh@rolex-boutique.vn">cskh@rolex-boutique.vn</a></li>
+                <li><strong>Giờ mở cửa:</strong> 09:00 – 20:00 (Thứ 2 – Chủ nhật, kể cả ngày lễ theo lịch cửa hàng)</li>
+                <li><strong>Gửi xe:</strong> Hỗ trợ gửi xe máy và ô tô trong khu vực trung tâm (vui lòng liên hệ trước khi đến).</li>
+            </ul>
+            <div class="store-actions">
+                <a class="cta-btn" href="https://www.google.com/maps/search/?api=1&query=120+L%C3%AA+L%E1%BB%A3i+Qu%E1%BA%ADn+1+Ho+Chi+Minh+City" target="_blank" rel="noopener noreferrer">Chỉ đường trên Google Maps</a>
+                <a class="ghost-btn" href="tel:0909123456">Gọi hotline ngay</a>
+            </div>
+        </section>
+
+        <section class="page-grid">
+            <article class="info-card">
+                <h2>Hotline 24/7</h2>
+                <p>Kết nối ngay với chuyên viên chăm sóc để được tư vấn khẩn cấp.</p>
+                <ul>
+                    <li>Hotline: 0909 123 456</li>
+                    <li>Tổng đài: 028 3939 8888</li>
+                    <li>Email: cskh@rolex-boutique.vn</li>
+                </ul>
+            </article>
+            <article class="info-card">
+                <h2>Hỗ trợ bảo hành</h2>
+                <p>Tiếp nhận thông tin bảo hành và theo dõi tiến độ xử lý minh bạch.</p>
+                <ul>
+                    <li>Kiểm tra tình trạng bảo hành theo số serial</li>
+                    <li>Đặt lịch tiếp nhận tại showroom</li>
+                    <li>Thông báo tiến độ qua điện thoại/email</li>
+                </ul>
+            </article>
+            <article class="info-card">
+                <h2>Đặt lịch dịch vụ</h2>
+                <p>Đặt lịch chăm sóc, vệ sinh, bảo dưỡng tại cửa hàng gần nhất.</p>
+                <ul>
+                    <li>Đặt lịch online theo khung giờ</li>
+                    <li>Tư vấn trước khi tiếp nhận</li>
+                    <li>Hỗ trợ khách VIP ưu tiên</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="info-card wide">
+            <h2>Câu hỏi thường gặp (FAQ)</h2>
+            <ol class="steps">
+                <li>Mỗi đồng hồ Rolex được bảo hành quốc tế 5 năm theo chính sách hãng.</li>
+                <li>Khuyến nghị bảo dưỡng định kỳ 4-6 năm để đảm bảo độ bền và độ chính xác.</li>
+                <li>Khi cần sửa chữa, vui lòng mang theo thẻ bảo hành và hóa đơn (nếu có).</li>
+                <li>Khách hàng có thể theo dõi tiến độ xử lý qua mã yêu cầu CSKH.</li>
+            </ol>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/auth-ui.js"></script>
+</body>
+</html>
