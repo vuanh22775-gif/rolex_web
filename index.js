@@ -9,7 +9,6 @@ const User         = require('./models/userModel');
 const Registration = require('./models/registrationModel');
 const Order        = require('./models/orderModel');
 
-module.exports = app;
 const app = express();
 
 // ── View engine ──────────────────────────────────────────────
@@ -487,5 +486,7 @@ async function main() {
         console.error('Lỗi kết nối:', err);
     }
 }
+module.exports = app;
+
 
 main();
