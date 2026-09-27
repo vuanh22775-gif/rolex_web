@@ -43,7 +43,7 @@
         <% if (success) { %>
         <div class="quanli-banner quanli-banner--success">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Đặt hàng thành công! Đơn hàng đang chờ xác nhận từ Rolex Boutique.
+            Đặt hàng thành công!<% if (successOrder) { %> Mã đơn #<%= String(successOrder._id).slice(-8).toUpperCase() %>.<% } %> Đơn hàng đang chờ xác nhận từ Rolex Boutique.
         </div>
         <% } %>
 
@@ -66,10 +66,14 @@
                     </div>
                     <% if (o.status === 'pending') { %>
                     <span class="order-badge badge--pending">Chờ xác nhận</span>
-                    <% } else if (o.status === 'approved') { %>
-                    <span class="order-badge badge--approved">✓ Đã được duyệt</span>
+                    <% } else if (o.status === 'confirmed') { %>
+                    <span class="order-badge badge--approved">Đã xác nhận</span>
+                    <% } else if (o.status === 'shipping') { %>
+                    <span class="order-badge badge--approved">Đang giao</span>
+                    <% } else if (o.status === 'approved' || o.status === 'completed') { %>
+                    <span class="order-badge badge--approved">✓ Đã hoàn tất</span>
                     <% } else { %>
-                    <span class="order-badge badge--rejected">✗ Đơn hàng bị từ chối</span>
+                    <span class="order-badge badge--rejected">✗ Đơn hàng đã hủy/từ chối</span>
                     <% } %>
                 </div>
 
@@ -112,5 +116,8 @@
 
     <%- include('partials/footer') %>
     <script src="/js/auth-ui.js"></script>
+    <% if (success) { %>
+    <script>localStorage.removeItem('rolex_cart_v1');</script>
+    <% } %>
 </body>
 </html>

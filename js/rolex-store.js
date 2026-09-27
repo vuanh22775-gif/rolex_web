@@ -2,103 +2,8 @@
 // rolex-store.js — Trang sản phẩm: lọc, sắp xếp, giỏ hàng
 // ════════════════════════════════════════════════════════════
 
-// ── Dữ liệu sản phẩm mặc định (fallback khi không có server/localStorage) ──
-const defaultProducts = [
-    {
-        id: "126234",
-        name: "Datejust 36",
-        model: "Oyster 36 mm - Oystersteel & white gold",
-        price: 246787000,
-        collection: "classic",
-        image: "media/datejust 36.avif"
-    },
-    {
-        id: "126334",
-        name: "Datejust 41",
-        model: "Oyster 41 mm - Fluted bezel Everose",
-        price: 287918000,
-        collection: "classic",
-        image: "media/116234.avif"
-    },
-    {
-        id: "279135RBR",
-        name: "Lady-Datejust",
-        model: "Oyster 28 mm - Everose gold & diamonds",
-        price: 1236676000,
-        collection: "luxury",
-        image: "media/day-date 40.avif"
-    },
-    {
-        id: "126610LN",
-        name: "Submariner Date",
-        model: "Oyster 41 mm - Black ceramic bezel gold",
-        price: 340000000,
-        collection: "diving",
-        image: "media/submariner.avif"
-    },
-    {
-        id: "126660",
-        name: "Deepsea",
-        model: "Oyster 44 mm - D-blue dial",
-        price: 580000000,
-        collection: "diving",
-        image: "media/deepsea.avif"
-    },
-    {
-        id: "126710BLRO",
-        name: "GMT-Master II",
-        model: "Oyster 40 mm - Dual color bezel",
-        price: 420000000,
-        collection: "sport",
-        image: "media/11610lv.avif"
-    },
-    {
-        id: "116508",
-        name: "Cosmograph Daytona",
-        model: "Oyster 40 mm - 18 ct yellow gold",
-        price: 1150000000,
-        collection: "sport",
-        image: "media/sky-dweller.avif"
-    },
-    {
-        id: "50535",
-        name: "Cellini Moonphase",
-        model: "39 mm - Everose 18 ct",
-        price: 890000000,
-        collection: "luxury",
-        image: "media/Land-Dweller.avif"
-    },
-    {
-        id: "126600",
-        name: "Sea-Dweller",
-        model: "Oyster 43 mm - Oystersteel",
-        price: 520000000,
-        collection: "diving",
-        image: "media/sea.avif"
-    }
-];
-
-// ── Tải danh sách sản phẩm ───────────────────────────────────
-// Ưu tiên: dữ liệu server (ROLEX_PRODUCTS_SERVER) > localStorage > defaultProducts
-const productsStorageKey = "rolex_products_db";
-let products = loadStoredProducts();
-
-function loadStoredProducts() {
-    // Nếu server đã inject dữ liệu vào window, dùng ngay
-    if (window.ROLEX_PRODUCTS_SERVER && window.ROLEX_PRODUCTS_SERVER.length > 0) {
-        return window.ROLEX_PRODUCTS_SERVER;
-    }
-    // Thử tải từ localStorage (admin có thể đã lưu thay đổi trước đó)
-    try {
-        const stored = localStorage.getItem(productsStorageKey);
-        if (stored) {
-            return JSON.parse(stored);
-        }
-    } catch (error) {
-        console.warn("Lỗi khi tải sản phẩm từ localStorage, sử dụng mặc định:", error);
-    }
-    return defaultProducts;
-}
+// A server-rendered list is authoritative, including when the database is empty.
+let products = Array.isArray(window.ROLEX_PRODUCTS_SERVER) ? window.ROLEX_PRODUCTS_SERVER : [];
 
 // ── Tham chiếu DOM ──────────────────────────────────────────
 const cartStorageKey = "rolex_cart_v1";
@@ -132,6 +37,10 @@ let cart = loadCart();
 // Định dạng số tiền theo kiểu Việt Nam (VD: 246.787.000 VND)
 function formatVnd(value) {
     return new Intl.NumberFormat("vi-VN").format(value) + " VND";
+}
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
 }
 
 // ════════════════════════════════════════════════════════════
@@ -233,13 +142,15 @@ function renderProducts() {
         .map(
             (item) => `
             <article class="product-card">
-                <img src="${item.image}" alt="${item.name}">
+                    ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">` : `<div class="product-image-placeholder">Ảnh mẫu sẽ sớm được cập nhật</div>`}
                 <div class="card-content">
-                    <h3>${item.name}</h3>
-                    <p>${item.model}</p>
-                    <p class="ref">Ref: ${item.id}</p>
+                    <h3>${escapeHtml(item.name)}</h3>
+                    <p>${escapeHtml(item.model)}</p>
+                    <p class="ref">Ref: ${escapeHtml(item.id)}</p>
                     <p class="price">${formatVnd(item.price)}</p>
-                    <button class="add-btn" data-id="${item.id}">Thêm vào giỏ</button>
+                    <p class="stock-status ${Number(item.stock) > 0 ? '' : 'is-empty'}">${Number(item.stock) > 0 ? `Còn ${item.stock} chiếc` : 'Hết hàng'}</p>
+                    <a class="detail-btn" href="/sanphammoi/${encodeURIComponent(item.id)}">Xem chi tiết</a>
+                    <button class="add-btn" data-id="${escapeHtml(item.id)}" ${Number(item.stock) > 0 ? '' : 'disabled'}>${Number(item.stock) > 0 ? 'Thêm vào giỏ' : 'Hết hàng'}</button>
                 </div>
             </article>
             `
@@ -276,7 +187,11 @@ function renderCart() {
                         <strong>${product.name}</strong>
                         <button class="remove-btn" data-remove-id="${product.id}">Xóa</button>
                     </div>
-                    <p class="qty">Số lượng: ${qty}</p>
+                    <div class="cart-quantity-controls">
+                        <button type="button" data-change-id="${escapeHtml(product.id)}" data-delta="-1" aria-label="Giảm số lượng ${escapeHtml(product.name)}">−</button>
+                        <span>Số lượng: ${qty}</span>
+                        <button type="button" data-change-id="${escapeHtml(product.id)}" data-delta="1" aria-label="Tăng số lượng ${escapeHtml(product.name)}" ${qty >= Number(product.stock) ? 'disabled' : ''}>+</button>
+                    </div>
                     <p class="qty">${formatVnd(product.price)} / chiếc</p>
                 </div>
             `;
@@ -292,7 +207,19 @@ function renderCart() {
 
 // Thêm 1 sản phẩm vào giỏ, nếu đã có thì tăng số lượng
 function addToCart(productId) {
+    const product = products.find((item) => item.id === productId);
+    if (!product || Number(product.stock) <= 0 || (cart[productId] || 0) >= Number(product.stock)) return;
     cart[productId] = (cart[productId] || 0) + 1;
+    saveCart();
+    renderCart();
+}
+
+function changeCartQuantity(productId, delta) {
+    const product = products.find((item) => item.id === productId);
+    const nextQuantity = Number(cart[productId] || 0) + delta;
+    if (!product || nextQuantity > Number(product.stock)) return;
+    if (nextQuantity <= 0) delete cart[productId];
+    else cart[productId] = nextQuantity;
     saveCart();
     renderCart();
 }
@@ -349,6 +276,11 @@ cartItems.addEventListener("click", (event) => {
     const removeId = target.dataset.removeId;
     if (removeId) {
         removeFromCart(removeId);
+        return;
+    }
+    const changeId = target.dataset.changeId;
+    if (changeId) {
+        changeCartQuantity(changeId, Number(target.dataset.delta));
     }
 });
 

@@ -1,22 +1,50 @@
 {
-  "name": "rolex-boutique",
+  "name": "atelier-admin",
   "version": "1.0.0",
-  "description": "Rolex Boutique Vietnam - Node.js + Express + EJS + MongoDB",
+  "private": true,
+  "description": "Rolex Boutique Admin Dashboard - React, Vite and TypeScript",
   "main": "index.js",
   "scripts": {
+    "prestart": "npm run build",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "server:dev": "nodemon index.js",
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.1",
     "connect-mongo": "^5.1.0",
+    "dotenv": "^18.0.4",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
     "express-session": "^1.17.3",
+    "gsap": "^3.15.0",
+    "lucide-react": "^0.446.0",
     "mongoose": "^7.8.0",
-    "multer": "^2.1.1"
+    "motion": "^13.4.4",
+    "multer": "^2.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4",
+    "recharts": "^2.12.7",
+    "tailwind-merge": "^2.5.2",
+    "three": "^0.186.1",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.20",
+    "nodemon": "^3.1.4",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
+    "typescript": "^5.6.2",
+    "vite": "^8.3.1"
   }
 }

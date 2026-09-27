@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<%= product.name %> - Thông tin mẫu đồng hồ Rolex Boutique.">
+    <title><%= product.name %> | <%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+    <style>
+        .watch-detail { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr); gap:clamp(28px,6vw,88px); align-items:center; padding:52px 0 80px; }
+        .watch-detail__media { min-height:460px; display:grid; place-items:center; background:#f4f6f3; border:1px solid #e2e7e2; }
+        .watch-detail__media img { display:block; width:min(100%,640px); max-height:580px; object-fit:contain; }
+        .watch-detail__placeholder { max-width:300px; padding:24px; color:#68736b; text-align:center; line-height:1.7; }
+        .watch-detail__copy { max-width:520px; }
+        .watch-detail__collection { color:#8a7535; font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+        .watch-detail__copy h1 { margin:12px 0; font-size:clamp(2rem,4vw,3.3rem); font-weight:400; }
+        .watch-detail__model { color:#5f6962; line-height:1.8; }
+        .watch-detail__ref { margin-top:22px; color:#68736b; font-size:.83rem; }
+        .watch-detail__price { margin:26px 0; color:#173c2c; font-size:1.35rem; font-weight:600; }
+        .watch-detail__stock { padding:14px 0; border-top:1px solid #dfe5df; border-bottom:1px solid #dfe5df; color:#006039; }
+        .watch-detail__stock.is-empty { color:#a33a32; }
+        .watch-detail__actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:24px; }
+        .watch-detail__actions input { width:76px; min-height:46px; padding:8px; border:1px solid #ccd4cd; background:white; }
+        .watch-detail__message { min-height:24px; margin-top:12px; color:#a33a32; }
+        @media(max-width:760px) { .watch-detail { grid-template-columns:1fr; padding-top:25px; } .watch-detail__media { min-height:300px; } .watch-detail__actions .cta-btn { flex:1; padding-inline:14px; } }
+    </style>
+</head>
+<body class="page-lux">
+    <%- include('partials/header') %>
+    <main class="page lux-main-wrap">
+        <nav aria-label="Breadcrumb"><a href="/sanphammoi">Bộ sưu tập</a> / <span><%= product.name %></span></nav>
+        <section class="watch-detail">
+            <div class="watch-detail__media">
+                <% if (product.image) { %><img src="/<%= product.image %>" alt="<%= product.name %>" fetchpriority="high">
+                <% } else { %><p class="watch-detail__placeholder">Hình ảnh mẫu này sẽ sớm được cập nhật.</p><% } %>
+            </div>
+            <div class="watch-detail__copy">
+                <p class="watch-detail__collection"><%= product.collection %></p>
+                <h1><%= product.name %></h1>
+                <p class="watch-detail__model"><%= product.model %></p>
+                <p class="watch-detail__ref">Mã tham chiếu: <strong><%= product.id %></strong></p>
+                <p class="watch-detail__price"><%= new Intl.NumberFormat('vi-VN').format(product.price) %> VND</p>
+                <p class="watch-detail__stock <%= product.stock > 0 ? '' : 'is-empty' %>"><%= product.stock > 0 ? `Còn ${product.stock} chiếc trong kho` : 'Hết hàng' %></p>
+                <div class="watch-detail__actions">
+                    <label class="sr-only" for="detailQuantity">Số lượng</label>
+                    <input id="detailQuantity" type="number" value="1" min="1" max="<%= product.stock %>" <%= product.stock > 0 ? '' : 'disabled' %>>
+                    <button id="addDetailCart" class="cta-btn" type="button" <%= product.stock > 0 ? '' : 'disabled' %>>Thêm vào giỏ</button>
+                    <button id="buyDetailNow" class="ghost-btn" type="button" <%= product.stock > 0 ? '' : 'disabled' %>>Mua ngay</button>
+                </div>
+                <p id="detailMessage" class="watch-detail__message" role="status" aria-live="polite"></p>
+            </div>
+        </section>
+    </main>
+    <%- include('partials/footer') %>
+    <script src="/js/auth-ui.js"></script>
+    <script>
+        const cartKey = 'rolex_cart_v1';
+        const productId = <%- JSON.stringify(product.id) %>;
+        const availableStock = <%= product.stock %>;
+        const quantityInput = document.getElementById('detailQuantity');
+        const message = document.getElementById('detailMessage');
+        function addDetailItem(goToCheckout) {
+            const qty = Number(quantityInput.value);
+            if (!Number.isInteger(qty) || qty < 1 || qty > availableStock) {
+                message.textContent = 'Số lượng vượt quá số sản phẩm hiện có.';
+                return;
+            }
+            let cart = {};
+            try { cart = JSON.parse(localStorage.getItem(cartKey) || '{}'); } catch { cart = {}; }
+            const nextQty = (Number(cart[productId]) || 0) + qty;
+            if (nextQty > availableStock) {
+                message.textContent = 'Giỏ hàng đã có số lượng tối đa của mẫu này.';
+                return;
+            }
+            cart[productId] = nextQty;
+            localStorage.setItem(cartKey, JSON.stringify(cart));
+            message.textContent = 'Đã thêm vào giỏ hàng.';
+            if (goToCheckout) window.location.href = '/thanhtoan';
+        }
+        document.getElementById('addDetailCart').addEventListener('click', () => addDetailItem(false));
+        document.getElementById('buyDetailNow').addEventListener('click', () => addDetailItem(true));
+    </script>
+</body>
+</html>

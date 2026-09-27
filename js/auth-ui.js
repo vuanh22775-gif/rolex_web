@@ -204,29 +204,27 @@ function createSupportChat() {
         return;
     }
 
-    // Tạo toàn bộ cấu trúc HTML của widget chat
     const widget = document.createElement("div");
     widget.className = "chat-widget";
     widget.innerHTML = `
-        <button type="button" class="chat-toggle-btn" aria-label="Mở chat CSKH">CSKH</button>
+        <button type="button" class="chat-toggle-btn" aria-label="Mở chat CSKH"><span class="chat-toggle-icon">+</span><span>CSKH</span></button>
         <section class="chat-box" aria-hidden="true">
             <header class="chat-header">
-            <h4>Tư vấn CSKH</h4>
-                <button type="button" class="chat-close-btn" aria-label="Đóng chat">×</button>
+                <div><span class="chat-eyebrow">ROLEX BOUTIQUE</span><h4>Tư vấn riêng với CSKH</h4><small>Thường phản hồi trong ít phút</small></div>
+                <button type="button" class="chat-close-btn" aria-label="Đóng chat">&times;</button>
             </header>
             <div class="chat-messages" id="chatMessages">
-                <div class="chat-message bot">Xin chào! Tôi có thể hỗ trợ giá, bảo hành, địa chỉ, hotline.</div>
+                <div class="chat-message bot"><strong>Xin chào!</strong><br>Tôi có thể hỗ trợ bạn về mẫu đồng hồ, giá, bảo hành và đặt lịch tại boutique.</div>
             </div>
             <form class="chat-form" id="chatForm">
-                <input id="chatInput" type="text" placeholder="Nhập nội dung cần hỗ trợ..." autocomplete="off">
-                <button type="submit">Gửi</button>
+                <input id="chatInput" type="text" placeholder="Viết tin nhắn..." autocomplete="off" maxlength="1000">
+                <button type="submit" aria-label="Gửi tin nhắn">&uarr;</button>
             </form>
         </section>
     `;
 
     body.appendChild(widget);
 
-    // Lấy tham chiếu các phần tử trong widget
     const toggleBtn = widget.querySelector(".chat-toggle-btn");
     const closeBtn = widget.querySelector(".chat-close-btn");
     const chatBox = widget.querySelector(".chat-box");
@@ -234,66 +232,60 @@ function createSupportChat() {
     const chatForm = widget.querySelector("#chatForm");
     const chatInput = widget.querySelector("#chatInput");
 
-    // Mở chat box và focus vào ô nhập
     const openChat = () => {
         chatBox.classList.add("open");
         chatBox.setAttribute("aria-hidden", "false");
         chatInput.focus();
+        loadMessages();
     };
-    // Đóng chat box
     const closeChat = () => {
         chatBox.classList.remove("open");
         chatBox.setAttribute("aria-hidden", "true");
     };
 
-    // Thêm tin nhắn vào khung chat và cuộn xuống cuối
     const addMessage = (text, role) => {
         const bubble = document.createElement("div");
-        bubble.className = `chat-message ${role}`; // role: "user" hoặc "bot"
+        bubble.className = `chat-message ${role}`;
         bubble.textContent = text;
         chatMessages.appendChild(bubble);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
-    // Tra lời tự động dựa theo từ khóa trong tin nhắn người dùng
-    const getBotReply = (message) => {
-        const value = message.toLowerCase();
-        if (value.includes("gia")) {
-            return "Giá đồng hồ dao động từ 240 triệu đến trên 2 tỷ, tùy dòng và vật liệu.";
-        }
-        if (value.includes("bao hanh")) {
-            return "Rolex bảo hành quốc tế 5 năm. Bạn có thể mang đồng hồ đến showroom để được kiểm tra.";
-        }
-        if (value.includes("dia chi")) {
-            return "Showroom: 120 Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh.";
-        }
-        if (value.includes("hotline") || value.includes("so dien thoai")) {
-            return "Hotline CSKH: 0909 123 456 - Tổng đài: 028 3939 8888.";
-        }
-        if (value.includes("cam on")) {
-            return "Rất vui được hỗ trợ bạn. Nếu cần thêm thông tin, bạn cứ nhắn tin tiếp nhé.";
-        }
-        // Phản hồi mặc định khi không khớp từ khóa nào
-        return "CSKH đã ghi nhận yêu cầu. Bạn vui lòng để lại SĐT hoặc email để chúng tôi liên hệ nhanh.";
+    const loadMessages = async () => {
+        if (!isLoggedIn) return;
+        const response = await fetch('/api/chat/messages', { credentials: 'same-origin' });
+        if (!response.ok) return;
+        const result = await response.json();
+        chatMessages.innerHTML = '';
+        (result.messages || []).forEach(message => addMessage(message.text, message.senderRole === 'admin' ? 'bot' : 'user'));
     };
 
     toggleBtn.addEventListener("click", openChat);
     closeBtn.addEventListener("click", closeChat);
+    window.setInterval(() => {
+        if (isLoggedIn && chatBox.classList.contains('open')) loadMessages();
+    }, 5000);
 
-    // Xử lý gửi tin nhắn: hiện tin của user, sau 300ms hiện phản hồi bot
-    chatForm.addEventListener("submit", (event) => {
+    chatForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const text = chatInput.value.trim();
         if (!text) {
             return;
         }
 
+        if (!isLoggedIn) {
+            addMessage("Vui lòng đăng nhập để gửi tin nhắn cho chuyên viên tư vấn.", "bot");
+            return;
+        }
         addMessage(text, "user");
         chatInput.value = "";
-
-        window.setTimeout(() => {
-            addMessage(getBotReply(text), "bot");
-        }, 300);
+        try {
+            const response = await fetch('/api/chat/messages', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+            if (!response.ok) throw new Error();
+            await loadMessages();
+        } catch {
+            addMessage('Không gửi được tin nhắn. Vui lòng thử lại.', 'bot');
+        }
     });
 }
 
@@ -375,8 +367,10 @@ function setupAuthHeader() {
 
     if (isLoggedIn && currentUser) {
         // Trường hợp đã đăng nhập: hiện tên và nút đăng xuất
-        const welcome = document.createElement("span");
+        const welcome = document.createElement("a");
         welcome.className = "welcome-user";
+        welcome.href = currentRole === "admin" ? "/admin/settings" : "/thong-tin-ca-nhan";
+        welcome.setAttribute("aria-label", "Quản lý thông tin cá nhân");
         welcome.textContent = `Xin chào, ${currentUser}`;
 
         const logoutBtn = document.createElement("button");

@@ -269,6 +269,14 @@
                     </div>
 
                     <div class="add-form-group">
+                        <label for="productStock">Số lượng tồn kho <span class="req">*</span></label>
+                        <input type="number" id="productStock" name="productStock"
+                               placeholder="1" min="0" step="1"
+                               value="<%= form.productStock ?? '' %>" required>
+                        <span class="hint">Số chiếc có thể bán ngay lúc này.</span>
+                    </div>
+
+                    <div class="add-form-group">
                         <label for="productImage">Đường dẫn hình ảnh</label>
                         <input type="text" id="productImage" name="productImage"
                                placeholder="media/submariner.avif"
@@ -331,7 +339,7 @@
     <script>
         /* Validate nhẹ phía client trước khi submit */
         document.getElementById('addProductForm').addEventListener('submit', function(e) {
-            const required = ['productName', 'productId', 'productModel', 'productPrice'];
+            const required = ['productName', 'productId', 'productModel', 'productPrice', 'productStock'];
             let ok = true;
             required.forEach(function(name) {
                 const el = document.getElementById(name);

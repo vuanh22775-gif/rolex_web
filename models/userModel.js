@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true, minlength: 5 },
     role:     { type: String, enum: ['admin', 'user'], default: 'user' },
     fullName: { type: String, default: '' },
-    email:    { type: String, default: '' }
+    email:    { type: String, default: '', lowercase: true, trim: true },
+    phone:    { type: String, default: '' }
 }, { timestamps: true });
 
 // Tự động hash password trước khi lưu

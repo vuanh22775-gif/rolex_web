@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/rolex-store.css">
+    <link rel="stylesheet" href="/css/rolex-pages.css">
+    <link rel="stylesheet" href="/css/lux-layout.css">
+</head>
+<body class="page-lux">
+    <%- include('partials/header') %>
+
+    <section class="lux-hero" aria-label="Thông tin cá nhân">
+        <div class="lux-hero__rail" aria-hidden="true"></div>
+        <div class="lux-hero__inner">
+            <h1 class="lux-hero__title">Thông tin cá nhân</h1>
+            <p class="lux-hero__subtitle">Cập nhật thông tin liên hệ cho tài khoản Rolex Boutique của bạn.</p>
+            <a class="lux-hero__cta" href="#noi-dung-chinh">Quản lý hồ sơ &gt;</a>
+        </div>
+        <a class="lux-hero__scroll" href="#noi-dung-chinh" aria-label="Cuộn tới nội dung">⌄</a>
+    </section>
+
+    <main class="page lux-main-wrap" id="noi-dung-chinh">
+        <section class="info-card wide">
+            <h2>Hồ sơ khách hàng</h2>
+            <% if (message) { %>
+            <p class="form-status <%= message.success ? 'success' : 'error' %>" role="status"><%= message.message %></p>
+            <% } %>
+            <form class="register-form" method="POST" action="/thong-tin-ca-nhan">
+                <label for="fullName">Họ và tên</label>
+                <input id="fullName" name="fullName" type="text" value="<%= account.fullName || '' %>" minlength="3" maxlength="120" required>
+
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" value="<%= account.email || '' %>" maxlength="254" required>
+
+                <label for="phone">Số điện thoại</label>
+                <input id="phone" name="phone" type="tel" value="<%= account.phone || '' %>" pattern="0[0-9]{9,10}" required>
+
+                <label for="username">Tên đăng nhập</label>
+                <input id="username" type="text" value="<%= account.username %>" readonly>
+
+                <button type="submit" class="cta-btn">Lưu thông tin</button>
+                <a href="/don-hang" class="cta-btn" style="text-align:center">Xem đơn hàng của tôi</a>
+            </form>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/auth-ui.js"></script>
+</body>
+</html>

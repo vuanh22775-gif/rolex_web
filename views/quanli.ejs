@@ -56,6 +56,28 @@
             </article>
         </section>
 
+        <section class="info-card wide admin-chat-panel">
+            <div class="chat-panel-heading">
+                <div>
+                    <p class="section-kicker">HỖ TRỢ TRỰC TIẾP</p>
+                    <h2>Hộp thư khách hàng</h2>
+                </div>
+                <span id="chatConnectionStatus" class="chat-connection-status">Đang tải...</span>
+            </div>
+            <div class="admin-chat-layout">
+                <aside id="chatConversationList" class="chat-conversations" aria-label="Danh sách hội thoại">
+                    <p class="chat-empty">Chưa có hội thoại.</p>
+                </aside>
+                <section class="admin-chat-thread">
+                    <div id="adminChatThread" class="admin-chat-thread__messages"><p class="chat-empty">Chọn một hội thoại để bắt đầu.</p></div>
+                    <form id="adminChatForm" class="admin-chat-compose">
+                        <input id="adminChatInput" type="text" maxlength="1000" placeholder="Viết phản hồi cho khách hàng..." autocomplete="off" disabled>
+                        <button type="submit" class="cta-btn" disabled>Gửi</button>
+                    </form>
+                </section>
+            </div>
+        </section>
+
         <section class="info-card wide">
             <h2>Quản lí sản phẩm</h2>
             <div class="product-management">
@@ -74,6 +96,7 @@
                                 <th>Mã tham chiếu</th>
                                 <th>Mô tả</th>
                                 <th>Giá (VND)</th>
+                                <th>Tồn kho</th>
                                 <th>Bộ sưu tập</th>
                                 <th>Hành động</th>
                             </tr>
@@ -81,7 +104,7 @@
                         <tbody id="productsList">
                             <% if (products.length === 0) { %>
                             <tr class="empty-row">
-                                <td colspan="6">Không có sản phẩm nào. Thêm sản phẩm mới để bắt đầu.</td>
+                                <td colspan="7">Không có sản phẩm nào. Thêm sản phẩm mới để bắt đầu.</td>
                             </tr>
                             <% } else { %>
                             <% products.forEach(function(p) { %>
@@ -90,6 +113,7 @@
                                 <td><%= p.id %></td>
                                 <td><%= p.model %></td>
                                 <td><%= new Intl.NumberFormat('vi-VN').format(p.price) %></td>
+                                <td><strong class="stock-value <%= (p.stock || 0) === 0 ? 'stock-empty' : '' %>"><%= p.stock || 0 %></strong></td>
                                 <td><span class="collection-badge collection-<%= p.collection %>"><%= p.collection.charAt(0).toUpperCase() + p.collection.slice(1) %></span></td>
                                 <td class="action-buttons">
                                     <button class="edit-btn" data-id="<%= p.id %>">Sửa</button>
@@ -182,8 +206,12 @@
                             <td>
                                 <% if (o.status === 'pending') { %>
                                 <span class="status-badge" style="background:#fff3cd;color:#856404;border:1px solid #ffe69c">Chờ duyệt</span>
-                                <% } else if (o.status === 'approved') { %>
-                                <span class="status-badge status-active">Đã duyệt</span>
+                                <% } else if (o.status === 'approved' || o.status === 'completed') { %>
+                                <span class="status-badge status-active">Đã hoàn tất</span>
+                                <% } else if (o.status === 'confirmed') { %>
+                                <span class="status-badge status-active">Đã xác nhận</span>
+                                <% } else if (o.status === 'shipping') { %>
+                                <span class="status-badge status-active">Đang giao</span>
                                 <% } else { %>
                                 <span class="status-badge" style="background:#f8d7da;color:#842029;border:1px solid #f5c2c7">Từ chối</span>
                                 <% } %>
@@ -245,6 +273,10 @@
                 <div class="form-group">
                     <label for="productPrice">Giá (VND) *</label>
                     <input type="number" id="productPrice" name="productPrice" required min="0" placeholder="340000000">
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Số lượng tồn kho *</label>
+                    <input type="number" id="productStock" name="productStock" required min="0" step="1" placeholder="1">
                 </div>
                 <div class="form-group">
                     <label for="productCollection">Bộ sưu tập *</label>
@@ -314,5 +346,6 @@
     </script>
     <script src="/js/auth-ui.js"></script>
     <script src="/js/quanli.js"></script>
+    <script src="/js/admin-chat.js"></script>
 </body>
 </html>

@@ -93,9 +93,7 @@ checkoutForm.addEventListener('submit', (e) => {
         return;
     }
 
-    // Đưa dữ liệu giỏ hàng vào hidden field rồi submit form lên server
-    // Xóa giỏ hàng khỏi localStorage ngay trước khi submit để tránh trùng lặp
+    // The server remains authoritative for price and stock; preserve the cart if submission fails.
     cartItemsInput.value = JSON.stringify(snapshot);
-    localStorage.removeItem(cartStorageKey);
     checkoutForm.submit();
 });

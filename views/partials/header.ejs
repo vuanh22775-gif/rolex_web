@@ -23,7 +23,7 @@
                     
 
                 <% } else { %>
-                    <a href="/quanli" class="<%= activePage === 'quanli' ? 'active' : '' %>">Quản lí</a>
+                    <a href="/quanli" class="<%= activePage === 'quanli' ? 'active' : '' %>"></a>
                     
                 <% } %>
             </nav>
@@ -35,31 +35,19 @@
     </a>
 
     <div class="lux-header__tools">
-        <% if (typeof showCartBtn !== 'undefined' && showCartBtn) { %>
-        <button id="openCartBtn" class="cart-pill" type="button">
-            Giỏ hàng <span id="cartCount">0</span>
-        </button>
-        <% } %>
-        <a class="lux-tool" href="/sanphammoi" aria-label="Tìm kiếm sản phẩm">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-            <span class="lux-tool__label">Tìm kiếm</span>
-        </a>
-        <a class="lux-tool" href="/chamsockhachhang" aria-label="Hệ thống cửa hàng">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-            <span class="lux-tool__label">Cửa hàng</span>
-        </a>
-        <% if (isAuthenticated && user.role === 'user') { %>
-        <a class="lux-tool" href="/don-hang" aria-label="Đơn hàng của tôi">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-            <span class="lux-tool__label">Đơn hàng</span>
-        </a>
-        <% } else if (!isAuthenticated) { %>
-        <a class="lux-tool" href="/form" aria-label="Đăng ký tư vấn">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
-            <span class="lux-tool__label">Đăng ký</span>
-        </a>
-        <% } %>
-    </div>
+    <% if (typeof showCartBtn !== 'undefined' && showCartBtn) { %>
+    <button id="openCartBtn" class="cart-pill" type="button">
+        Giỏ hàng <span id="cartCount">0</span>
+    </button>
+    <% } %>
+
+    <% if (!isAuthenticated) { %>
+    <a class="lux-tool" href="/form" aria-label="Đăng ký tư vấn">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+        <span class="lux-tool__label">Đăng ký</span>
+    </a>
+    <% } %>
+</div>
 </header>
 
 

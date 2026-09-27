@@ -16,7 +16,8 @@ const orderSchema = new mongoose.Schema({
         lineTotal: Number
     }],
     total:  { type: Number, default: 0 },
-    status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' }
+    stockDeducted: { type: Boolean, default: false },
+    status: { type: String, enum: ['pending', 'approved', 'rejected', 'confirmed', 'shipping', 'completed', 'cancelled'], default: 'pending' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

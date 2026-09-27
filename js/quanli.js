@@ -65,6 +65,7 @@ function openProductModal(product = null) {
         document.getElementById("productId").value         = product.id;
         document.getElementById("productModel").value      = product.model;
         document.getElementById("productPrice").value      = product.price;
+        document.getElementById("productStock").value      = product.stock || 0;
         document.getElementById("productCollection").value = product.collection;
         document.getElementById("productImage").value      = product.image || "";
         document.getElementById("productId").disabled      = true; // Không cho đổi ID
@@ -98,7 +99,7 @@ function renderProducts(filter = "") {
         p.name.toLowerCase().includes(term) || p.id.toLowerCase().includes(term)
     );
     if (filtered.length === 0) {
-        productsList.innerHTML = '<tr class="empty-row"><td colspan="6">Không tìm thấy sản phẩm nào.</td></tr>';
+        productsList.innerHTML = '<tr class="empty-row"><td colspan="7">Không tìm thấy sản phẩm nào.</td></tr>';
         return;
     }
     // Render từng hàng trong bảng, gắn data-id vào nút để nhận diện khi click
@@ -108,6 +109,7 @@ function renderProducts(filter = "") {
             <td>${p.id}</td>
             <td>${p.model}</td>
             <td>${formatVnd(p.price)}</td>
+            <td><strong class="stock-value ${Number(p.stock) === 0 ? "stock-empty" : ""}">${p.stock || 0}</strong></td>
             <td><span class="collection-badge collection-${p.collection}">${getCollectionLabel(p.collection)}</span></td>
             <td class="action-buttons">
                 <button class="edit-btn" data-id="${p.id}">Sửa</button>
@@ -129,6 +131,7 @@ async function saveProduct(formData) {
         name:       (formData.get("productName")       || "").trim(),
         model:      (formData.get("productModel")      || "").trim(),
         price:      parseInt(formData.get("productPrice") || "0", 10),
+        stock:      parseInt(formData.get("productStock") || "0", 10),
         collection: (formData.get("productCollection") || "").trim(),
         image:      (formData.get("productImage")      || "").trim()
     };
@@ -140,6 +143,10 @@ async function saveProduct(formData) {
     }
     if (isNaN(productData.price) || productData.price < 0) {
         showNotice("Giá sản phẩm không hợp lệ!", "error");
+        return;
+    }
+    if (!Number.isInteger(productData.stock) || productData.stock < 0) {
+        showNotice("Số lượng tồn kho không hợp lệ!", "error");
         return;
     }
 

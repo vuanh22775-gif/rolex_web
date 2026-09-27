@@ -310,6 +310,18 @@
     object-fit: cover;
     transition: transform 0.4s ease;
 }
+.feat-card__placeholder,
+.product-image-placeholder {
+    display: grid;
+    min-height: 220px;
+    place-items: center;
+    padding: 24px;
+    background: #f1f4f0;
+    color: #68736b;
+    font-size: 0.8rem;
+    text-align: center;
+}
+.feat-card__placeholder { height: 260px; }
 .feat-card:hover .feat-card__img-wrap img {
     transform: scale(1.04);
 }

@@ -63,12 +63,15 @@
                 <h2 class="section-head__title" id="featured-heading">Sản phẩm tiêu biểu</h2>
                 <p class="section-head__sub">Những mẫu đồng hồ được yêu thích nhất — thiết kế bền vững, giá trị tăng theo năm tháng.</p>
             </header>
-hehe
             <div class="featured-grid">
                 <% featuredProducts.forEach(function(product) { %>
                 <article class="feat-card">
                     <div class="feat-card__img-wrap">
+                        <% if (product.image) { %>
                         <img src="/<%= product.image %>" alt="<%= product.name %>" loading="lazy">
+                        <% } else { %>
+                        <div class="feat-card__placeholder" role="img" aria-label="Chưa có ảnh cho <%= product.name %>">Ảnh mẫu sẽ sớm được cập nhật</div>
+                        <% } %>
                     </div>
                     <div class="feat-card__body">
                         <p class="feat-card__collection"><%= product.collection.charAt(0).toUpperCase() + product.collection.slice(1) %></p>
@@ -76,7 +79,8 @@ hehe
                         <p class="feat-card__model"><%= product.model %></p>
                         <p class="feat-card__ref">Ref. <%= product.id %></p>
                         <p class="feat-card__price"><%= new Intl.NumberFormat('vi-VN').format(product.price) %> VND</p>
-                        <a class="feat-card__cta" href="/sanphammoi">Xem chi tiết</a>
+                        <p class="feat-card__stock <%= (product.stock || 0) > 0 ? '' : 'is-empty' %>"><%= (product.stock || 0) > 0 ? 'Còn ' + product.stock + ' chiếc' : 'Hết hàng' %></p>
+                        <a class="feat-card__cta" href="/sanphammoi/<%= encodeURIComponent(product.id) %>">Xem chi tiết</a>
                     </div>
                 </article>
                 <% }); %>
@@ -172,8 +176,7 @@ hehe
         <div class="home-section__inner">
             <header class="section-head section-head--light">
                 <p class="section-head__eyebrow">Dịch vụ</p>
-                <h2 class="section-head__title" id="services-heading">Cam kết đẳng cấp</h2>
-            </header>
+<h2 class="section-head__title" id="services-heading" style="color: #000000;">Cam kết đẳng cấp</h2>            </header>
             <div class="services-grid">
                 <div class="svc-item">
                     <div class="svc-item__icon" aria-hidden="true">

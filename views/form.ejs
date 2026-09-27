@@ -43,7 +43,10 @@
                 <input id="username" name="username" type="text" placeholder="Nhập tên tài khoản" required>
 
                 <label for="password">Mật khẩu</label>
-                <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" required>
+                <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" minlength="8" required>
+
+                <label for="confirmPassword">Xác nhận mật khẩu</label>
+                <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Nhập lại mật khẩu" minlength="8" required>
 
                 <label for="phone">Số điện thoại</label>
                 <input id="phone" name="phone" type="tel" placeholder="09xxxxxxxx" required>
@@ -73,5 +76,6 @@
     <%- include('partials/footer') %>
 
     <script src="/js/auth-ui.js"></script>
+    <script src="/js/rolex-form.js"></script>
 </body>
 </html>
